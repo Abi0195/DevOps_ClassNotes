@@ -3,23 +3,7 @@ apiVersion: apps/v1
 metadata:
   name: kubeserve
 spec:
-  replicas: 2
-  minReadySeconds: 10 # wait for 45 sec before going to deploy next pod
-  strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxUnavailable: 1
-      maxSurge: 1        # max number of pods to run for the deployment
-  selector:
-    matchLabels:
-      app: kubeserve
-  template:
-    metadata:kind: Deployment
-apiVersion: apps/v1
-metadata:
-  name: kubeserve
-spec:
-  replicas: 2
+  replicas: 3
   minReadySeconds: 10 # wait for 45 sec before going to deploy next pod
   strategy:
     type: RollingUpdate
@@ -31,25 +15,6 @@ spec:
       app: kubeserve
   template:
     metadata:
-      name: kubeserve
-      labels:
-        app: kubeserve
-    spec:
-      containers:
-       - name: app
-         image: edu123/myimage:docker
----
-kind: Service
-apiVersion: v1
-metadata:
-   name: kubeserve-svc
-spec:
-  type: NodePort
-  ports:
-    - port: 8080
-      targetPort: 8080
-  selector:
-    app: kubeserve
       name: kubeserve
       labels:
         app: kubeserve
@@ -69,3 +34,10 @@ spec:
       targetPort: 8080
   selector:
     app: kubeserve
+      name: kubeserve
+      labels:
+        app: kubeserve
+    spec:
+      containers:
+       - name: app
+         image: edu123/myproject:cicd
